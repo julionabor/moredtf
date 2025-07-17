@@ -48,7 +48,7 @@ body {
 }
 
 .heading_container h2 span {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .heading_container.heading_center {
@@ -105,11 +105,11 @@ a:focus {
 }
 
 .header_section .header_top .contact_nav a i {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .header_section .header_bottom {
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 }
 
 .header_section .header_bottom .container-fluid {
@@ -139,7 +139,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link {
-	color: #ff9c2a;
+	color: #DAA520;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -151,7 +151,7 @@ a:focus {
 }
 
 .custom_nav-container .nav_search-btn:hover {
-	color: #ff9c2a;
+	color: #DAA520;
 }
 
 .custom_nav-container .navbar-toggler {
@@ -260,7 +260,7 @@ a:focus {
 }
 
 .quote_btn-container a:hover {
-	color: #ff9c2a;
+	color: #DAA520;
 }
 
 /*end header section*/
@@ -326,7 +326,7 @@ a:focus {
 }
 
 .slider_section .play_btn button {
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -353,7 +353,7 @@ a:focus {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 	opacity: 1;
 	border-radius: 100%;
 	-webkit-transform: translate(-50%, -50%);
@@ -395,7 +395,7 @@ a:focus {
 }
 
 .slider_section .detail-box {
-	color: #ff9c2a;
+	color: #DAA520;
 }
 
 .slider_section .detail-box h1 {
@@ -406,7 +406,7 @@ a:focus {
 }
 
 .slider_section .detail-box h1 span {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .slider_section .detail-box p {
@@ -416,7 +416,7 @@ a:focus {
 .slider_section .detail-box a {
 	display: inline-block;
 	padding: 10px 45px;
-	background-color: #ff9c2a;
+	background-color: #DAA520;
 	color: #ffffff;
 	border-radius: 5px;
 	margin-top: 15px;
@@ -452,7 +452,7 @@ a:focus {
 	position: unset;
 	width: 50px;
 	height: 50px;
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 	opacity: 1;
 }
 
@@ -463,7 +463,7 @@ a:focus {
 
 .slider_section .carousel_btn-box .carousel-control-prev:hover,
 .slider_section .carousel_btn-box .carousel-control-next:hover {
-	background-color: #ff9c2a;
+	background-color: #DAA520;
 }
 
 .book_section h4 {
@@ -473,7 +473,7 @@ a:focus {
 }
 
 .book_section h4 span {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section h4::before {
@@ -483,7 +483,7 @@ a:focus {
 	bottom: 0;
 	width: 75px;
 	height: 2px;
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 }
 
 .book_section form {
@@ -499,7 +499,7 @@ a:focus {
 .book_section form .form-control {
 	width: 100%;
 	background-color: transparent;
-	border: 1px solid #0d0672;
+	border: 1px solid #0c0c0c;
 	height: 45px;
 	outline: none;
 	-webkit-box-shadow: none;
@@ -509,31 +509,31 @@ a:focus {
 }
 
 .book_section form .form-control::-webkit-input-placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section form .form-control:-ms-input-placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section form .form-control::-ms-input-placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section form .form-control::placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section form #inputDate {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section form #inputDate input {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section form button.btn {
-	background-color: #ff9c2a;
+	background-color: #DAA520;
 	color: #ffffff;
 	padding: 10px 45px;
 	border-radius: 5px;
@@ -556,7 +556,7 @@ a:focus {
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .book_section .nice-select:after {
@@ -596,7 +596,7 @@ a:focus {
 .about_section .detail-box a {
 	display: inline-block;
 	padding: 10px 45px;
-	background-color: #ff9c2a;
+	background-color: #DAA520;
 	color: #ffffff;
 	border-radius: 5px;
 	margin-top: 15px;
@@ -648,15 +648,15 @@ a:focus {
 
 .treatment_section .box .detail-box a {
 	text-transform: uppercase;
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .treatment_section .box .detail-box a:hover {
-	color: #ff9c2a;
+	color: #DAA520;
 }
 
 .team_section {
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 }
 
 .team_section .heading_container {
@@ -664,7 +664,7 @@ a:focus {
 }
 
 .team_section .heading_container h2 {
-	color: #000000;
+	color: #DAA520;
 	text-transform: uppercase;
 	margin: 0;
 }
@@ -714,7 +714,7 @@ a:focus {
 }
 
 .team_section .box .detail-box h6 {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .team_section .box .detail-box .social_box {
@@ -774,7 +774,7 @@ a:focus {
 }
 
 .team_section .team_carousel .owl-nav button:hover {
-	background-color: #ff9c2a;
+	background-color: #DAA520;
 	color: #ffffff;
 }
 
@@ -813,7 +813,7 @@ a:focus {
 
 .client_section .box .client_info .client_name h5 {
 	font-weight: 600;
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .client_section .box .client_info .client_name h6 {
@@ -835,7 +835,7 @@ a:focus {
 .client_section .carousel-control-next {
 	width: 45px;
 	height: 125px;
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 	opacity: 1;
 	font-size: 28px;
 	font-weight: bold;
@@ -870,7 +870,7 @@ a:focus {
 
 .contact_section .form_container input {
 	width: 100%;
-	border: 1px solid #0d0672;
+	border: 1px solid #0c0c0c;
 	height: 50px;
 	margin-bottom: 25px;
 	padding-left: 15px;
@@ -880,19 +880,19 @@ a:focus {
 }
 
 .contact_section .form_container input::-webkit-input-placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .contact_section .form_container input:-ms-input-placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .contact_section .form_container input::-ms-input-placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .contact_section .form_container input::placeholder {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .contact_section .form_container input.message-box {
@@ -904,7 +904,7 @@ a:focus {
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 15px 65px;
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 	color: #ffffff;
 	border-radius: 0;
 	font-weight: bold;
@@ -919,7 +919,7 @@ a:focus {
 }
 
 .info_section {
-	background-color: #ff9c2a;
+	background-color: #DAA520;
 	color: #ffffff;
 }
 
@@ -991,7 +991,7 @@ a:focus {
 
 .info_section .info_form form button {
 	background-color: transparent;
-	color: #0d0672;
+	color: #0c0c0c;
 	margin-top: 15px;
 	text-transform: uppercase;
 	font-size: 15px;
@@ -1015,7 +1015,7 @@ a:focus {
 	left: 0;
 	width: 15px;
 	height: 15px;
-	background-color: #0d0672;
+	background-color: #0c0c0c;
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
 }
@@ -1040,7 +1040,7 @@ a:focus {
 
 .info_section .info_links .info_links_menu a:hover,
 .info_section .info_links .info_links_menu a.active {
-	color: #0d0672;
+	color: #0c0c0c;
 }
 
 .info_section .info_post .post_box {
@@ -1119,7 +1119,7 @@ a:focus {
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
-	color: #0d0672;
+	color: #0c0c0c;
 	font-size: 24px;
 	margin-right: 10px;
 }
@@ -1127,7 +1127,7 @@ a:focus {
 /* footer section*/
 .footer_section {
 	position: relative;
-	background-color: #ff9c2a;
+	background-color: #DAA520;
 	text-align: center;
 }
 
