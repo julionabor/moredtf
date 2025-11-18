@@ -658,6 +658,10 @@ a:focus {
 .team_section {
 	background-color: #0c0c0c;
 }
+.team_section p{
+	color: #ffffff;
+}
+
 
 .team_section .heading_container {
 	margin-bottom: 45px;
