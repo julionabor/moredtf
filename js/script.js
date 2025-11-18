@@ -55,63 +55,49 @@
 //     });
 
 // ////////////////////
-async function handleSubmit(e) {
-	e.preventDefault(); // Evita o envio padrão do formulário
-	console.log(e);
-	const form = e.target;
-	const formData = new FormData();
+async function handleSubmit(event) {
+  event.preventDefault();
 
-	// 🖨️ Impressões (coleta todos os inputs type="radio" que estiverem marcados)
-	const impressoesSelecionadas = form.querySelectorAll(
-		'input[type="radio"]:checked'
-	);
-	impressoesSelecionadas.forEach((input, index) => {
-		formData.append(`impressao_${index + 1}`, input.id);
-	});
+  const form = document.getElementById("encomenda");
+  const formData = new FormData();
 
-	// 🗃️ Quantidade de cópias
-	const copias = form.querySelector("#inputPatientName").value;
-	formData.append("copias", copias);
+  // Seleção do tipo de produto
+  const tipoProduto = form.querySelector('input[name="tipo_produto"]:checked');
+  formData.append("tipo_produto", tipoProduto ? tipoProduto.id : "");
 
-	// 📂 Ficheiros
-	const ficheiros = form.querySelector("#fileInput").files;
-	for (let i = 0; i < ficheiros.length; i++) {
-		formData.append("ficheiros[]", ficheiros[i]);
-	}
+  // Outros campos
+  formData.append("copias", document.getElementById("copias").value);
+  formData.append("metros", document.getElementById("metros").value);
+  formData.append("ilhos", document.getElementById("ilhos").checked);
+  formData.append("nome", document.getElementById("nome").value);
+  formData.append("email", document.getElementById("email").value);
+  formData.append("contacto", document.getElementById("contacto").value);
+  formData.append("morada", document.getElementById("morada").value);
+  formData.append("cp", document.getElementById("cp").value);
+  formData.append("metodo", document.getElementById("metodo").value);
 
-	// 👤 Dados pessoais
-	formData.append("nome", form.querySelector("#nome").value);
-	formData.append("nif", form.querySelector("#nif").value);
-	formData.append("contacto", form.querySelector("#contacto").value);
-	formData.append("morada", form.querySelector("#morada").value);
-	formData.append("codigo_postal", form.querySelector("#codigo-postal").value);
+  // Adicionar arquivos
+const arquivos = document.getElementById("fileInput").files;
+for (let i = 0; i < arquivos.length; i++) {
+  formData.append("arquivo", arquivos[i]);
+}
 
-	// 💰 Método de pagamento
-	const pagamento = form.querySelector('select[name="metodo-pagamento"]').value;
-	formData.append("metodo_pagamento", pagamento);
-
-	// 🛰️ Enviar para o backend (porta 4242)
-	console.log(formData);
-	try {
-	  const response = await fetch('http://localhost:4242/create-checkout-session', {
-	    method: 'POST',
-	    body: formData,
-      'Access-Control-Allow-Origin': '*'
-
-	  });
-
-	  if (!response.ok) {
-	    throw new Error(`Erro: ${response.status}`);
-	  }
-
-	  const result = await response.json();
-	  console.log(result)
-	  alert('Pedido enviado com sucesso!');
-	  console.log(result);
-	} catch (error) {
-	  console.error('Erro ao enviar o pedido:', error);
-	  alert('Erro ao submeter o pedido.');
-	}
+  try {
+    const response = await fetch("http://localhost:3000/enviar-email", {
+  method: "POST",
+  body: formData,
+})
+	console.log("Fetch concluído", response.status);
+    if (response.ok) {
+      alert("Email enviado com sucesso!");
+      form.reset();
+    } else {
+      const text = await response.text();
+      alert("Erro ao enviar email: " + text);
+    }
+  } catch (error) {
+    alert("Erro ao enviar email: " + error.message);
+  }
 }
 // calcular custo estimado
 
