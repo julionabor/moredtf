@@ -139,7 +139,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link {
-	color: #DAA520;
+	color: #daa520;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -151,7 +151,7 @@ a:focus {
 }
 
 .custom_nav-container .nav_search-btn:hover {
-	color: #DAA520;
+	color: #daa520;
 }
 
 .custom_nav-container .navbar-toggler {
@@ -260,7 +260,7 @@ a:focus {
 }
 
 .quote_btn-container a:hover {
-	color: #DAA520;
+	color: #daa520;
 }
 
 /*end header section*/
@@ -395,7 +395,23 @@ a:focus {
 }
 
 .slider_section .detail-box {
-	color: #DAA520;
+	color: #daa520;
+}
+
+/* Form message and file list styles */
+#formMessage {
+	margin-bottom: 1rem;
+}
+
+#fileList {
+	white-space: pre-wrap;
+	font-size: 0.9rem;
+	color: #333;
+	margin-top: 0.5rem;
+}
+
+.form-message--error {
+	/* legacy class if needed */
 }
 
 .slider_section .detail-box h1 {
@@ -416,7 +432,7 @@ a:focus {
 .slider_section .detail-box a {
 	display: inline-block;
 	padding: 10px 45px;
-	background-color: #DAA520;
+	background-color: #daa520;
 	color: #ffffff;
 	border-radius: 5px;
 	margin-top: 15px;
@@ -463,7 +479,7 @@ a:focus {
 
 .slider_section .carousel_btn-box .carousel-control-prev:hover,
 .slider_section .carousel_btn-box .carousel-control-next:hover {
-	background-color: #DAA520;
+	background-color: #daa520;
 }
 
 .book_section h4 {
@@ -533,7 +549,7 @@ a:focus {
 }
 
 .book_section form button.btn {
-	background-color: #DAA520;
+	background-color: #daa520;
 	color: #ffffff;
 	padding: 10px 45px;
 	border-radius: 5px;
@@ -596,7 +612,7 @@ a:focus {
 .about_section .detail-box a {
 	display: inline-block;
 	padding: 10px 45px;
-	background-color: #DAA520;
+	background-color: #daa520;
 	color: #ffffff;
 	border-radius: 5px;
 	margin-top: 15px;
@@ -652,23 +668,22 @@ a:focus {
 }
 
 .treatment_section .box .detail-box a:hover {
-	color: #DAA520;
+	color: #daa520;
 }
 
 .team_section {
 	background-color: #0c0c0c;
 }
-.team_section p{
+.team_section p {
 	color: #ffffff;
 }
-
 
 .team_section .heading_container {
 	margin-bottom: 45px;
 }
 
 .team_section .heading_container h2 {
-	color: #DAA520;
+	color: #daa520;
 	text-transform: uppercase;
 	margin: 0;
 }
@@ -778,7 +793,7 @@ a:focus {
 }
 
 .team_section .team_carousel .owl-nav button:hover {
-	background-color: #DAA520;
+	background-color: #daa520;
 	color: #ffffff;
 }
 
@@ -923,7 +938,7 @@ a:focus {
 }
 
 .info_section {
-	background-color: #DAA520;
+	background-color: #daa520;
 	color: #ffffff;
 }
 
@@ -1131,7 +1146,7 @@ a:focus {
 /* footer section*/
 .footer_section {
 	position: relative;
-	background-color: #DAA520;
+	background-color: #daa520;
 	text-align: center;
 }
 

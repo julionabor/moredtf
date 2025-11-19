@@ -104,7 +104,9 @@
 											>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" href="#como_funciona"> Como Funciona</a>
+											<a class="nav-link" href="#como_funciona">
+												Como Funciona</a
+											>
 										</li>
 										<li class="nav-item">
 											<a class="nav-link" href="#encomendar"> Encomendar</a>
@@ -280,15 +282,19 @@
 					<div class="col">
 						<form
 							id="encomenda"
+							class="needs-validation"
+							novalidate
 							enctype="multipart/form-data"
 							method="post"
-							onsubmit="handleSubmit(event)"
+							action="javascript:void(0);"
+							onsubmit="return false;"
 						>
 							<h4>SELECIONAR TIPO DE <span>IMPRESSÃO</span></h4>
 							<div class="form-row">
 								<div class="form-group col-lg-4">
 									<label for="dtf">
-										<input type="radio" name="tipo_produto" id="dtf" /> DTF
+										<input type="radio" name="tipo_produto" id="dtf" required />
+										DTF
 									</label>
 								</div>
 								<div class="form-group col-lg-4">
@@ -372,9 +378,26 @@
 							<div class="form-row">
 								<div class="form-group col-4">
 									<h4>CARREGAR O(S)<span> FICHEIRO(S)</span></h4>
-									<div class="form-group ">
-                    <label for="fileInput">(Só serão permitido ficheiros com o max de 2mts e em PDF)</label>
-										<input type="file" id="fileInput" multiple />
+									<div class="form-group">
+										<label for="fileInput"
+											>(Apenas ficheiros PDF; tamanho máximo por ficheiro:
+											2MB)</label
+										>
+										<input
+											type="file"
+											id="fileInput"
+											multiple
+											accept=".pdf"
+											aria-describedby="fileHelp"
+											required
+										/>
+										<small id="fileHelp" class="form-text text-muted"
+											>Formato: .pdf — Máx: 2MB por ficheiro.</small
+										>
+										<div id="fileList" aria-live="polite"></div>
+										<div class="invalid-feedback">
+											Por favor carregue pelo menos um ficheiro válido.
+										</div>
 									</div>
 								</div>
 							</div>
@@ -388,7 +411,9 @@
 										placeholder=""
 										min="1"
 										value="1"
+										required
 									/>
+									<div class="invalid-feedback">Insira o número de cópias.</div>
 								</div>
 								<div class="form-group col-4">
 									<label for="metros">Quantos metros? </label>
@@ -397,7 +422,9 @@
 										class="form-control"
 										id="metros"
 										placeholder=""
+										required
 									/>
+									<div class="invalid-feedback">Insira a metragem.</div>
 								</div>
 								<div class="form-group col-4">
 									<label for="valor">Custo Estimado</label>
@@ -424,7 +451,11 @@
 										class="form-control"
 										id="nome"
 										placeholder="Insira o seu nome"
+										required
 									/>
+									<div class="invalid-feedback">
+										Por favor insira o seu nome.
+									</div>
 								</div>
 								<div class="form-group col-lg-4">
 									<label for="email">Email</label>
@@ -433,7 +464,11 @@
 										class="form-control"
 										id="email"
 										placeholder="Insira o seu email"
+										required
 									/>
+									<div class="invalid-feedback">
+										Por favor insira um email válido.
+									</div>
 								</div>
 								<div class="form-group col-lg-4">
 									<label for="contacto">Contacto Preferencial</label>
@@ -442,7 +477,11 @@
 										class="form-control"
 										id="contacto"
 										placeholder="Insira o seu contacto"
+										required
 									/>
+									<div class="invalid-feedback">
+										Por favor insira um número de contacto.
+									</div>
 								</div>
 							</div>
 							<div class="form-row">
@@ -453,7 +492,9 @@
 										class="form-control"
 										id="morada"
 										placeholder="Insira a morada "
+										required
 									/>
+									<div class="invalid-feedback">Por favor insira a morada.</div>
 								</div>
 								<div class="form-group col-lg-4">
 									<label for="cp">Código Postal</label>
@@ -462,21 +503,37 @@
 										class="form-control"
 										id="cp"
 										placeholder="Codigo Postal"
+										required
 									/>
+									<div class="invalid-feedback">
+										Por favor insira o código postal.
+									</div>
 								</div>
 								<div class="form-group col-lg-4">
 									<label for="metodo">Método de Pagamento </label>
-									<select name="metodo" class="form-control wide" id="metodo">
+									<select
+										name="metodo"
+										class="form-control wide"
+										id="metodo"
+										required
+									>
+										<option value="">Selecione...</option>
 										<option value="Transferência Bancária">
 											Transferência Bancária
 										</option>
 										<option value="MBWay">MBWay</option>
 									</select>
+									<div class="invalid-feedback">
+										Por favor selecione um método de pagamento.
+									</div>
 								</div>
 							</div>
+							<div id="formMessage" role="status" aria-live="polite"></div>
+							<!-- Success message specifically above submit button -->
+							<div id="submitFeedback" class="text-center mb-2" aria-live="polite"></div>
 							<div class="btn-box">
 								<!-- <button id="checkout-button" class="btn mx-2">Pagar agora</button>-->
-								<button type="submit" class="btn">Solicitar Orçamento</button>
+								<button type="button" class="btn">Solicitar Orçamento</button>
 							</div>
 						</form>
 					</div>
@@ -485,7 +542,7 @@
 		</section>
 
 		<!-- end book section -->
-    <!-- como funciona section -->
+		<!-- como funciona section -->
 
 		<section id="como_funciona" class="team_section p-2 my-1">
 			<div class="container">
@@ -502,11 +559,11 @@
 							</div>
 							<p>
 								Deve submeter o seu ficheiro através do formulário de encomenda,
-                escolhendo o tipo de impressão que deseja. Após a submissão, iremos
-                analisar o seu pedido e entraremos em contacto consigo para confirmar
-                os detalhes e fornecer um orçamento final. Após a confirmação do
-                orçamento, procederemos com a produção da sua encomenda, garantindo
-                a qualidade e o prazo acordados.  
+								escolhendo o tipo de impressão que deseja. Após a submissão,
+								iremos analisar o seu pedido e entraremos em contacto consigo
+								para confirmar os detalhes e fornecer um orçamento final. Após a
+								confirmação do orçamento, procederemos com a produção da sua
+								encomenda, garantindo a qualidade e o prazo acordados.
 							</p>
 						</div>
 					</div>
@@ -547,7 +604,6 @@
 		</section>
 
 		<!-- end about section -->
-		
 
 		<!-- treatment section -->
 
@@ -656,7 +712,6 @@
 								</div>
 								<div class="detail-box">
 									<h5>Impressão em T-shirt</h5>
-									
 								</div>
 							</div>
 						</div>
@@ -667,7 +722,6 @@
 								</div>
 								<div class="detail-box">
 									<h5>Vinil</h5>
-									
 								</div>
 							</div>
 						</div>
@@ -678,7 +732,6 @@
 								</div>
 								<div class="detail-box">
 									<h5>DTF</h5>
-									
 								</div>
 							</div>
 						</div>
@@ -962,7 +1015,61 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 		<!-- custom js -->
 		<script src="js/custom.js"></script>
+		<!-- Feedback modal (Bootstrap) -->
+		<div
+			class="modal fade"
+			id="feedbackModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="feedbackModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="feedbackModalLabel">Mensagem</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!-- message injected here -->
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-dismiss="modal"
+						>
+							Fechar
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- stripe -->
 		<script src="js/script.js"></script>
+
+		<!-- Toast container -->
+		<div aria-live="polite" aria-atomic="true" style="position: relative;">
+		  <div id="toastContainer" style="position: fixed; top: 1rem; right: 1rem; z-index: 1080;">
+		    <div id="formToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="6000">
+		      <div class="toast-header">
+		        <strong class="mr-auto" id="formToastTitle">Mensagem</strong>
+		        <small class="text-muted">agora</small>
+		        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="toast-body" id="formToastBody"></div>
+		    </div>
+		  </div>
+		</div>
 	</body>
 </html>
