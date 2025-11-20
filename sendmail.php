@@ -1,6 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+$dotenv = parse_ini_file(__DIR__ . '../config.env');
 
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
@@ -80,7 +81,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'moreofthesame19@gmail.com';
-    $mail->Password = 'thvl etkl gsjj zywl';
+    $mail->Password = $dotenv['SMTP_PASS'];
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 
@@ -119,7 +120,7 @@ try {
     $mail_cliente->Host = 'smtp.gmail.com';
     $mail_cliente->SMTPAuth = true;
     $mail_cliente->Username = 'moreofthesame19@gmail.com';
-    $mail_cliente->Password = 'thvl etkl gsjj zywl';
+    $mail_cliente->Password = $dotenv['SMTP_PASS'];
     $mail_cliente->SMTPSecure = 'tls';
     $mail_cliente->Port = 587;
 
