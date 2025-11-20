@@ -432,16 +432,6 @@ async function handleSubmit(event) {
 
 		form.reset();
 		qs("#valor").textContent = "";
-
-		// Optionally read response text (success message)
-		try {
-			const bodyText = await res.text();
-			console.info("Server response:", bodyText);
-		} catch (e) {
-			/* ignore */
-		}
-		form.reset();
-		qs("#valor").textContent = "";
 	} catch (err) {
 		showMessage(messageContainer, "Erro ao enviar: " + err.message, {
 			type: "error",
