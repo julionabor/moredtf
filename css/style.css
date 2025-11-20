@@ -1160,3 +1160,6 @@ a:focus {
 	color: inherit;
 }
 /*# sourceMappingURL=style.css.map */
+.logo {
+	mix-blend-mode: multiply;
+}

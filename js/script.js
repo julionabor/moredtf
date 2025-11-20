@@ -401,26 +401,38 @@ async function handleSubmit(event) {
 			submitBtn.disabled = true;
 			submitBtn.textContent = "Enviando...";
 		}
-		const res = await fetch("http://localhost:3000/enviar-email", {
+		const res = await fetch("sendmail.php", {
 			method: "POST",
 			body: formData,
 		});
-		if (!res.ok) {
-			const text = await res.text();
-			// Log full server response for debugging, but show a concise message to user
-			console.error("Server returned error response:", text);
-			showMessage(
+
+		let data;
+		try {
+			data = await res.json();
+		} catch (e) {
+			return showMessage(messageContainer, "Erro inesperado no servidor.", {
+				type: "error",
+			});
+		}
+
+		if (!data.success) {
+			return showMessage(
 				messageContainer,
-				"Erro ao enviar o pedido. Verifique os dados e tente novamente (detalhes no console).",
+				"Erro ao enviar: " + (data.error || "Erro desconhecido."),
 				{ type: "error" }
 			);
-			return;
 		}
+
+		// SUCESSO
 		showMessage(
 			messageContainer,
-			"Pedido enviado com sucesso! Iremos contactá-lo em breve.",
+			"Pedido enviado com sucesso! Receberá um email de confirmação em breve.",
 			{ type: "success" }
 		);
+
+		form.reset();
+		qs("#valor").textContent = "";
+
 		// Optionally read response text (success message)
 		try {
 			const bodyText = await res.text();
