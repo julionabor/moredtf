@@ -1,7 +1,28 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-$dotenv = parse_ini_file(__DIR__ . '../config.env');
+// Ativa erros para depuração temporária
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Função para ler config.env
+function loadEnv($path) {
+    if (!file_exists($path)) {
+        die(json_encode(['status' => 'error', 'message' => 'Arquivo de configuração não encontrado.']));
+    }
+    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $config = [];
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue; // ignora comentários
+        if (strpos($line, '=') === false) continue;
+        list($key, $val) = explode('=', $line, 2);
+        $config[trim($key)] = trim($val);
+    }
+    return $config;
+}
+
+// Carrega o config.env fora da pasta pública
+$env = loadEnv(__DIR__ . '/../config.env');
 
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
@@ -81,7 +102,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'moreofthesame19@gmail.com';
-    $mail->Password = $dotenv['SMTP_PASS'];
+    $mail->Password = $env['SMTP_PASS'];
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 
@@ -120,7 +141,7 @@ try {
     $mail_cliente->Host = 'smtp.gmail.com';
     $mail_cliente->SMTPAuth = true;
     $mail_cliente->Username = 'moreofthesame19@gmail.com';
-    $mail_cliente->Password = $dotenv['SMTP_PASS'];
+    $mail_cliente->Password = $env['SMTP_PASS'];
     $mail_cliente->SMTPSecure = 'tls';
     $mail_cliente->Port = 587;
 
