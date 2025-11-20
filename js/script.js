@@ -27,7 +27,7 @@ function getSelectedProductId() {
 }
 
 function formatPrice(value) {
-	return value + " €";
+	return value + " € + IVA";
 }
 
 function calculatePrice(productId, meters, copies = 1, ilhos = false) {
@@ -468,15 +468,22 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function updatePriceDisplay() {
-		const pid = getSelectedProductId();
-		const meters = parseFloat(metrosInput.value);
-		const copies = parseInt(copiasInput.value, 10) || 1;
-		const ilhos = !!ilhosInput.checked;
-		const text = calculatePrice(pid, meters, copies, ilhos);
-		document.getElementById("valor").textContent = valorTotal + "€";
-		document.getElementById("valor_hidden").value = valorTotal;
-		valorSpan.textContent = text;
-	}
+	const pid = getSelectedProductId();
+	const meters = parseFloat(metrosInput.value);
+	const copies = parseInt(copiasInput.value, 10) || 1;
+	const ilhos = !!ilhosInput.checked;
+
+	// calcula preço
+	const precoText = calculatePrice(pid, meters, copies, ilhos);
+
+	// extrai número do texto (removendo " €") para campo hidden
+	const precoNumero = parseFloat(precoText.replace(" €", "")) || 0;
+
+	// atualiza elementos
+	valorSpan.textContent = precoText;
+	const hidden = document.getElementById("valor_hidden");
+	if (hidden) hidden.value = precoNumero;
+}
 
 	// file input preview and validation
 	function updateFileList() {
