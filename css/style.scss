@@ -915,7 +915,7 @@ a:focus {
 			left: 0;
 			width: 15px;
 			height: 15px;
-			background-color: $primary1;
+			background-color: #bca91b;
 			transform: translateY(-50%);
 		}
 	}
@@ -999,7 +999,7 @@ a:focus {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			color: $primary1;
+			color: #bca91b;
 			font-size: 24px;
 			margin-right: 10px;
 		}
@@ -1028,5 +1028,5 @@ a:focus {
 
 // end footer section
 .logo {
-  mix-blend-mode: multiply;
+	mix-blend-mode: multiply;
 }

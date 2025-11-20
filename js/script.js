@@ -473,6 +473,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		const copies = parseInt(copiasInput.value, 10) || 1;
 		const ilhos = !!ilhosInput.checked;
 		const text = calculatePrice(pid, meters, copies, ilhos);
+		document.getElementById("valor").textContent = valorTotal + "€";
+		document.getElementById("valor_hidden").value = valorTotal;
 		valorSpan.textContent = text;
 	}
 

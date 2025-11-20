@@ -1,135 +1,119 @@
 <?php
-header('Content-Type: application/json');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// CONFIGURAÇÕES
-$admin_email = "julionabor@gmail.com";   // email que recebe o pedido
-$site_name   = "Print Service";               // nome que aparece nos emails
-$from_email  = "no-reply@" . $_SERVER['SERVER_NAME']; // remetente automático
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+// Configurações
+$empresa_email = "moreofthesame19@gmail.com"; // email da empresa
+$empresa_nome = "More DTF";
+
+// Recebendo dados do formulário
+$tipo_produto = $_POST['tipo_produto'] ?? '';
+$copias = $_POST['copias'] ?? '';
+$metros = $_POST['metros'] ?? '';
+$ilhos = isset($_POST['ilhos']) ? "Sim" : "Não";
+$custo_estimado = $_POST['valor_hidden'] ?? '';
+
+$nome = $_POST['nome'] ?? '';
+$email = $_POST['email'] ?? '';
+$contacto = $_POST['contacto'] ?? '';
+$morada = $_POST['morada'] ?? '';
+$cp = $_POST['cp'] ?? '';
+$metodo = $_POST['metodo'] ?? '';
+
+// Cria a mensagem para a empresa
+$mensagem_empresa = "
+Nova solicitação de orçamento:
+
+Tipo de Produto: $tipo_produto
+Cópias: $copias
+Metros: $metros
+Ilhós: $ilhos
+Custo Estimado: $custo_estimado €
+
+Dados do Cliente:
+Nome: $nome
+Email: $email
+Contacto: $contacto
+Morada: $morada
+Código Postal: $cp
+Método de Pagamento: $metodo
+";
+
+// PHPMailer para envio para empresa
+$mail = new PHPMailer(true);
 
 try {
+    // Configuração do servidor SMTP
+    $mail->isSMTP();
+    $mail->Host = 'smtp.seudominio.com'; // substituir pelo SMTP do host
+    $mail->SMTPAuth = true;
+    $mail->Username = 'seuemail@seudominio.com'; // seu email SMTP
+    $mail->Password = 'sua_senha'; // senha SMTP
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
 
-    // ===========
-    // 1. VALIDAR CAMPOS
-    // ===========
-    $required = ["tipo_produto", "nome", "email", "metros", "copias"];
-    foreach ($required as $field) {
-        if (empty($_POST[$field])) {
-            throw new Exception("Campo obrigatório em falta: $field");
+    // Remetente
+    $mail->setFrom($email, $nome); // envia com email do cliente para facilitar reply
+    $mail->addAddress($empresa_email, $empresa_nome);
+    $mail->Subject = "Nova Solicitação de Orçamento";
+
+    // Anexos
+    if(isset($_FILES['fileInput'])) {
+        foreach($_FILES['fileInput']['tmp_name'] as $key => $tmp_name){
+            $filename = $_FILES['fileInput']['name'][$key];
+            $mail->addAttachment($tmp_name, $filename);
         }
     }
 
-    // ===========
-    // 2. RECEBER CAMPOS
-    // ===========
-    $tipo      = $_POST["tipo_produto"];
-    $copias    = $_POST["copias"];
-    $metros    = $_POST["metros"];
-    $ilhos     = isset($_POST["ilhos"]) ? "Sim" : "Não";
+    // Conteúdo
+    $mail->Body = $mensagem_empresa;
+    $mail->send();
 
-    $nome      = $_POST["nome"];
-    $email     = $_POST["email"];
-    $contacto  = $_POST["contacto"] ?? "";
-    $morada    = $_POST["morada"] ?? "";
-    $cp        = $_POST["cp"] ?? "";
-    $metodo    = $_POST["metodo"] ?? "";
+    // Email de confirmação para o cliente
+    $mail_cliente = new PHPMailer(true);
+    $mail_cliente->isSMTP();
+    $mail_cliente->Host = 'smtp.seudominio.com';
+    $mail_cliente->SMTPAuth = true;
+    $mail_cliente->Username = 'seuemail@seudominio.com';
+    $mail_cliente->Password = 'sua_senha';
+    $mail_cliente->SMTPSecure = 'tls';
+    $mail_cliente->Port = 587;
 
-    // ===========
-    // 3. EMAIL PRINCIPAL (HTML)
-    // ===========
-    $html = "
-    <h2>Novo Pedido de Orçamento</h2>
+    $mail_cliente->setFrom($empresa_email, $empresa_nome);
+    $mail_cliente->addAddress($email, $nome);
+    $mail_cliente->Subject = "Confirmação de Orçamento - More DTF";
 
-    <h3>Tipo de Impressão</h3>
-    <p><strong>Produto:</strong> $tipo</p>
+    $mensagem_cliente = "
+Olá $nome,
 
-    <h3>Especificações</h3>
-    <p><strong>Copias:</strong> $copias<br>
-    <strong>Metros:</strong> $metros<br>
-    <strong>Ilhós:</strong> $ilhos</p>
+Recebemos sua solicitação de orçamento com sucesso!
 
-    <h3>Dados do Cliente</h3>
-    <p>
-    <strong>Nome:</strong> $nome<br>
-    <strong>Email:</strong> $email<br>
-    <strong>Contacto:</strong> $contacto<br>
-    <strong>Morada:</strong> $morada<br>
-    <strong>Código Postal:</strong> $cp<br>
-    <strong>Método de Pagamento:</strong> $metodo
-    </p>
-    ";
+Custo Estimado: $custo_estimado €
 
+Em breve entraremos em contacto para confirmar os detalhes e iniciar a produção.
 
-    // ===========
-    // 4. CONSTRUIR E-MAIL COM ANEXOS
-    // ===========
-    $boundary = md5(time());
-    $headers  = "From: $site_name <$from_email>\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+Obrigado por escolher a More DTF!
 
-    $body  = "--$boundary\r\n";
-    $body .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-    $body .= $html . "\r\n\r\n";
+Atenciosamente,
+Equipe More DTF
+";
 
-    // ANEXAR FICHEIROS
-    if (!empty($_FILES["files"])) {
-        foreach ($_FILES["files"]["tmp_name"] as $i => $tmp) {
+    $mail_cliente->Body = $mensagem_cliente;
+    $mail_cliente->send();
 
-            if ($_FILES["files"]["error"][$i] === UPLOAD_ERR_OK) {
-
-                $filename = $_FILES["files"]["name"][$i];
-                $filedata = file_get_contents($tmp);
-                $filedata = chunk_split(base64_encode($filedata));
-                $filetype = $_FILES["files"]["type"][$i];
-
-                $body .= "--$boundary\r\n";
-                $body .= "Content-Type: $filetype; name=\"$filename\"\r\n";
-                $body .= "Content-Disposition: attachment; filename=\"$filename\"\r\n";
-                $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-                $body .= $filedata . "\r\n\r\n";
-            }
-        }
-    }
-
-    $body .= "--$boundary--";
-
-    // ===========
-    // 5. ENVIAR PARA ADMIN
-    // ===========
-    if (!mail($admin_email, "Novo Pedido de Orçamento", $body, $headers)) {
-        throw new Exception("Não foi possível enviar o email.");
-    }
-
-    // ===========
-    // 6. EMAIL DE CONFIRMAÇÃO PARA O UTILIZADOR
-    // ===========
-    $confirm_subject = "Recebemos o seu pedido de orçamento";
-    $confirm_html = "
-    <p>Olá <strong>$nome</strong>,</p>
-    <p>Recebemos o seu pedido de orçamento e iremos responder em breve.</p>
-    <p><strong>Resumo:</strong></p>
-    <p>
-    - Produto: $tipo <br>
-    - Metros: $metros <br>
-    - Cópias: $copias <br>
-    </p>
-    <p>Obrigado pelo seu contacto!</p>
-    ";
-
-    $confirm_headers  = "From: $site_name <$from_email>\r\n";
-    $confirm_headers .= "MIME-Version: 1.0\r\n";
-    $confirm_headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-    mail($email, $confirm_subject, $confirm_html, $confirm_headers);
-
-    // ===========
-    // 7. RESPOSTA AO JS
-    // ===========
-    echo json_encode(["success" => true]);
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'Orçamento enviado com sucesso!'
+    ]);
 
 } catch (Exception $e) {
-    echo json_encode(["success" => false, "error" => $e->getMessage()]);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Erro ao enviar o email: ' . $mail->ErrorInfo
+    ]);
 }
 ?>

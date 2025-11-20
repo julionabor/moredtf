@@ -386,6 +386,7 @@
 										<input
 											type="file"
 											id="fileInput"
+											name="fileInput[]"
 											multiple
 											accept=".pdf"
 											aria-describedby="fileHelp"
@@ -429,9 +430,7 @@
 								<div class="form-group col-4">
 									<label for="valor">Custo Estimado</label>
 									<span id="valor"></span>
-									<!-- Campo para informar o tamanho em metros -->
-									<!-- <input type="text" id="metros" placeholder="Metros / m²" min="0" step="0.1"> -->
-
+									<input type="hidden" id="valor_hidden" name="valor_hidden">
 									<!-- Checkbox para ilhós (somente usado na lona) -->
 									<div class="form-row" id="ilhossRow" style="display: none">
 										<div class="form-group col-4">
@@ -834,159 +833,64 @@
 		</section>
 		<!-- end client section -->
 
-		<!-- contact section -->
-		<!-- <section class="contact_section layout_padding-bottom">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          Get In Touch
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-7">
-          <div class="form_container">
-            <form action="">
-              <div>
-                <input type="text" placeholder="Full Name" />
-              </div>
-              <div>
-                <input type="email" placeholder="Email" />
-              </div>
-              <div>
-                <input type="text" placeholder="Phone Number" />
-              </div>
-              <div>
-                <input type="text" class="message-box" placeholder="Message" />
-              </div>
-              <div class="btn_box">
-                <button>
-                  SEND
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div class="col-md-5">
-          <div class="img-box">
-            <img src="images/contact-img.jpg" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-		<!-- end contact section -->
+		
 
 		<!-- info section -->
 		<section class="info_section">
-			<div class="container">
-				<div class="info_top">
-					<div class="info_logo">
-						<a href="">
-							<img src="images/logo-ms.png" alt="" class="logo" />
-						</a>
-					</div>
-				</div>
-				<div class="info_bottom layout_padding2">
-					<div class="row info_main_row">
-						<div class="col-md-6 col-lg-3">
-							<h5>Localização</h5>
-							<div class="info_contact">
-								<a href="">
-									<i class="fa fa-map-marker" aria-hidden="true"></i>
-									<span> Av Brasil, São João da Madeira </span>
-								</a>
-								<a href="">
-									<i class="fa fa-phone" aria-hidden="true"></i>
-									<span> +351 </span>
-								</a>
-								<a href="">
-									<i class="fa fa-envelope"></i>
-									<span> moreofthesame19@gmail.com </span>
-								</a>
-							</div>
-							<div class="social_box">
-								<a href="">
-									<i class="fa fa-facebook" aria-hidden="true"></i>
-								</a>
-								<a href="">
-									<i class="fa fa-twitter" aria-hidden="true"></i>
-								</a>
-								<a href="">
-									<i class="fa fa-linkedin" aria-hidden="true"></i>
-								</a>
-								<a href="">
-									<i class="fa fa-instagram" aria-hidden="true"></i>
-								</a>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-3">
-							<div class="info_links">
-								<h5>Links Rápidos</h5>
-								<div class="info_links_menu">
-									<a class="active" href="#"> Home </a>
-									<a href="#encomendar"> Encomendar </a>
-									<a href="#sobre-nos"> Impressão DTF </a>
-									<a href="#trabalhos"> Nossos Trabalhos </a>
-									<a href="#faq"> FAQ </a>
-									<a href="https://wa.me/351925425379"> Contacte-nos </a>
-								</div>
-							</div>
-						</div>
-						<!-- <div class="col-md-6 col-lg-3">
-            <div class="info_post">
-              <h5>
-                LATEST POSTS
-              </h5>
-              <div class="post_box">
-                <div class="img-box">
-                  <img src="images/post1.jpg" alt="">
+    <div class="container">
+     
+
+        <!-- Bottom part with contact info and links -->
+        <div class="info_bottom layout_padding2">
+            <div class="row info_main_row d-flex justify-content-space-between">
+
+                <!-- Contact / Location -->
+                <div class="col-md-6">
+                    <h5>Localização</h5>
+                    <div class="info_contact">
+                        <a href="#">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>Av Brasil, São João da Madeira</span>
+                        </a>
+                        <a href="tel:+351">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>+351</span>
+                        </a>
+                        <a href="mailto:moreofthesame19@gmail.com">
+                            <i class="fa fa-envelope"></i>
+                            <span>moreofthesame19@gmail.com</span>
+                        </a>
+                    </div>
+
+                    <!-- Social media links -->
+                    <div class="social_box">
+                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    </div>
                 </div>
-                <p>
-                  Normal
-                  distribution
-                </p>
-              </div>
-              <div class="post_box">
-                <div class="img-box">
-                  <img src="images/post2.jpg" alt="">
+
+                <!-- Quick Links -->
+                <div class="col-md-6 ">
+                    <div class="info_links">
+                        <h5>Links Rápidos</h5>
+                        <div class="info_links_menu">
+                            <a class="active" href="#">Home</a>
+                            <a href="#encomendar">Encomendar</a>
+                            <a href="#sobre-nos">Impressão DTF</a>
+                            <a href="#trabalhos">Nossos Trabalhos</a>
+                            <a href="#faq">FAQ</a>
+                            <a href="https://wa.me/351925425379">Contacte-nos</a>
+                        </div>
+                    </div>
                 </div>
-                <p>
-                  Normal
-                  distribution
-                </p>
-              </div>
+
             </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="info_post">
-              <h5>
-                News
-              </h5>
-              <div class="post_box">
-                <div class="img-box">
-                  <img src="images/post3.jpg" alt="">
-                </div>
-                <p>
-                  Normal
-                  distribution
-                </p>
-              </div>
-              <div class="post_box">
-                <div class="img-box">
-                  <img src="images/post4.png" alt="">
-                </div>
-                <p>
-                  Normal
-                  distribution
-                </p>
-              </div>
-            </div>
-          </div> -->
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- end info_section -->
+        </div>
+    </div>
+</section>
+	<!-- end info_section -->
 
 		<!-- footer section -->
 		<footer class="footer_section">
