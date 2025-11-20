@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/PHPMailer/src/Exception.php';
-require __DIR__ . '/PHPMailer/src/PHPMailer.php';
-require __DIR__ . '/PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/PHPMailer/src/Exception.php';
+require_once __DIR__ . '/PHPMailer/src/PHPMailer.php';
+require_once __DIR__ . '/PHPMailer/src/SMTP.php';
 // Ativa erros para depuração temporária
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -24,10 +24,6 @@ function loadEnv($path) {
 
 // Carrega o config.env fora da pasta pública
 $env = loadEnv(__DIR__ . '/../config.env');
-
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
 
 header('Content-Type: application/json');
 
