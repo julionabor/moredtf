@@ -5,7 +5,8 @@ require_once __DIR__ . '/PHPMailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-// Ativa erros para depuração temporária
+
+// Ativa erros temporariamente
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -17,7 +18,7 @@ function loadEnv($path) {
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     $config = [];
     foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue; // ignora comentários
+        if (strpos(trim($line), '#') === 0) continue;
         if (strpos($line, '=') === false) continue;
         list($key, $val) = explode('=', $line, 2);
         $config[trim($key)] = trim($val);
@@ -53,6 +54,7 @@ try {
         return "
         <html>
         <head>
+            <meta charset='UTF-8'>
             <style>
                 body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
                 .container { max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #eee; border-radius: 8px; background: #f9f9f9; }
@@ -98,6 +100,7 @@ try {
 
     // Envio para empresa
     $mail = new PHPMailer(true);
+    $mail->CharSet = 'UTF-8';
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
@@ -112,11 +115,12 @@ try {
     $mail->Subject = "Nova Solicitação de Orçamento";
     $mail->Body = $html_empresa;
 
-    // Anexos
-    if (!empty($_FILES['arquivo']['name'][0])) {
-        foreach ($_FILES['arquivo']['tmp_name'] as $key => $tmp_name) {
-            $filename = $_FILES['arquivo']['name'][$key];
-            $mail->addAttachment($tmp_name, $filename);
+    // Anexos: tratamento seguro para 1 ou mais arquivos
+    if (!empty($_FILES['arquivo']['name'])) {
+        $tmp_names = is_array($_FILES['arquivo']['tmp_name']) ? $_FILES['arquivo']['tmp_name'] : [$_FILES['arquivo']['tmp_name']];
+        $names = is_array($_FILES['arquivo']['name']) ? $_FILES['arquivo']['name'] : [$_FILES['arquivo']['name']];
+        foreach ($tmp_names as $key => $tmp_name) {
+            $mail->addAttachment($tmp_name, $names[$key]);
         }
     }
 
@@ -135,8 +139,9 @@ try {
 
     $html_cliente = generateEmailHTML("Confirmação de Orçamento", $content_cliente);
 
-    // Envio para cliente
+    // Envio para cliente via noreply
     $mail_cliente = new PHPMailer(true);
+    $mail_cliente->CharSet = 'UTF-8';
     $mail_cliente->isSMTP();
     $mail_cliente->Host = 'smtp.gmail.com';
     $mail_cliente->SMTPAuth = true;
