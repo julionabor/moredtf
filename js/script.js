@@ -11,6 +11,7 @@ const PRODUCTS = {
 	vinil: { pricePerMeter: 14 },
 	placas: { pricePerMeter: 14 },
 	lona: { pricePerMeter: 14, ilhosPerMeter: 0.5 },
+	textil: { pricePerMeter: 12 },
 };
 
 function qs(selector, el = document) {
@@ -394,6 +395,8 @@ async function handleSubmit(event) {
 		const el = qs("#" + id);
 		formData.append(id, el ? el.value : "");
 	});
+	const valorHiddenEl = qs("#valor_hidden");
+	if (valorHiddenEl) formData.append("valor_hidden", valorHiddenEl.value);
 	valid.forEach((f) => formData.append("arquivo", f));
 
 	try {
@@ -495,19 +498,48 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 		const files = Array.from(fileInput.files);
 		if (files.length === 0) {
-			list.textContent = "";
+			list.innerHTML = "";
 			return;
 		}
 		const { errors } = validateFiles(files);
-		if (errors.length) {
-			list.textContent = "Erros: " + errors.join("; ");
-			list.style.color = "red";
-			return;
-		}
-		list.style.color = "";
-		list.textContent = files
-			.map((f) => `${f.name} (${(f.size / 1024 / 1024).toFixed(2)}MB)`)
-			.join("\n");
+		const errorMap = {};
+		errors.forEach(function(e) {
+			const name = e.split(":")[0];
+			errorMap[name] = e.slice(name.length + 2);
+		});
+
+		list.innerHTML = "<div class='mt-1'><small class='text-muted'>" + files.length + " ficheiro(s) seleccionado(s):</small></div>";
+		const ul = document.createElement("ul");
+		ul.className = "list-unstyled mt-1 mb-0";
+
+		files.forEach(function(f, index) {
+			const hasError = !!errorMap[f.name];
+			const sizeMB = (f.size / 1024 / 1024).toFixed(2);
+			const li = document.createElement("li");
+			li.className = "d-flex align-items-center mb-1 flex-wrap";
+			li.innerHTML =
+				"<i class='fa fa-file-pdf-o mr-2 " + (hasError ? "text-danger" : "text-muted") + "' aria-hidden='true'></i>" +
+				"<span class='" + (hasError ? "text-danger" : "") + "' style='max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' title='" + f.name + "'>" + f.name + "</span>" +
+				"<small class='text-muted ml-1'>(" + sizeMB + "MB)</small>" +
+				(hasError ? "<small class='text-danger ml-2'>" + errorMap[f.name] + "</small>" : "") +
+				"<button type='button' class='btn btn-link btn-sm text-danger p-0 ml-auto' aria-label='Remover " + f.name + "' data-file-index='" + index + "' style='line-height:1;font-size:1rem;'>&#x2715;</button>";
+			ul.appendChild(li);
+		});
+		list.appendChild(ul);
+
+		ul.querySelectorAll("button[data-file-index]").forEach(function(btn) {
+			btn.addEventListener("click", function() {
+				var idx = parseInt(this.dataset.fileIndex, 10);
+				if (window.DataTransfer) {
+					var dt = new DataTransfer();
+					Array.from(fileInput.files).forEach(function(file, i) {
+						if (i !== idx) dt.items.add(file);
+					});
+					fileInput.files = dt.files;
+				}
+				updateFileList();
+			});
+		});
 	}
 
 	// Events

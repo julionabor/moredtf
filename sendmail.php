@@ -75,6 +75,20 @@ try {
         ";
     }
 
+    // Construir lista de ficheiros anexados
+    $ficheiros_lista = '';
+    if (!empty($_FILES['arquivo']['name'])) {
+        $nomes = is_array($_FILES['arquivo']['name']) ? $_FILES['arquivo']['name'] : [$_FILES['arquivo']['name']];
+        foreach ($nomes as $nome_fich) {
+            if (!empty($nome_fich)) {
+                $ficheiros_lista .= '<li>' . htmlspecialchars($nome_fich) . '</li>';
+            }
+        }
+    }
+    $ficheiros_html = $ficheiros_lista
+        ? '<ul>' . $ficheiros_lista . '</ul>'
+        : '<p><em>Nenhum ficheiro anexado.</em></p>';
+
     // Conteúdo da empresa
     $content_empresa = "
     <p>Nova solicitação de orçamento:</p>
@@ -93,6 +107,7 @@ try {
         <tr><td><strong>Morada:</strong></td><td>$morada</td></tr>
         <tr><td><strong>Código Postal:</strong></td><td>$cp</td></tr>
         <tr><td><strong>Método de Pagamento:</strong></td><td>$metodo</td></tr>
+        <tr><td><strong>Ficheiros Anexados:</strong></td><td>$ficheiros_html</td></tr>
     </table>
     ";
 
