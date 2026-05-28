@@ -340,6 +340,30 @@ function showMessage(container, message, { type = "info" } = {}) {
 	}
 }
 
+// XHR-based send with upload progress callback
+function sendWithProgress(formData, onProgress) {
+	return new Promise(function (resolve, reject) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "sendmail.php");
+		xhr.upload.addEventListener("progress", function (e) {
+			if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+		});
+		xhr.addEventListener("load", function () {
+			onProgress(100);
+			try {
+				var data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} catch (e) {
+				reject(new Error("Resposta inválida do servidor."));
+			}
+		});
+		xhr.addEventListener("error", function () {
+			reject(new Error("Erro de rede ao enviar."));
+		});
+		xhr.send(formData);
+	});
+}
+
 // Submit handler (async) - separated from showMessage
 async function handleSubmit(event) {
 	if (event && typeof event.preventDefault === "function")
@@ -400,33 +424,47 @@ async function handleSubmit(event) {
 	valid.forEach((f) => formData.append("arquivo", f));
 
 	try {
+		const progressWrap = qs("#uploadProgress");
+		const progressBar  = qs("#uploadProgressBar");
+		const progressLabel = qs("#uploadProgressLabel");
+		function setProgress(pct) {
+			if (!progressWrap) return;
+			progressWrap.style.display = "block";
+			if (progressBar) {
+				progressBar.style.width = pct + "%";
+				progressBar.setAttribute("aria-valuenow", pct);
+			}
+			if (progressLabel) {
+				progressLabel.textContent = pct < 100
+					? "A enviar ficheiros… " + pct + "%"
+					: "Envio concluído!";
+			}
+		}
+		function hideProgress() {
+			if (!progressWrap) return;
+			setTimeout(function () {
+				progressWrap.style.display = "none";
+				if (progressBar) { progressBar.style.width = "0%"; progressBar.setAttribute("aria-valuenow", 0); }
+			}, 800);
+		}
 		if (submitBtn) {
 			submitBtn.disabled = true;
 			submitBtn.textContent = "Enviando...";
 		}
-		const res = await fetch("sendmail.php", {
-			method: "POST",
-			body: formData,
-		});
-
-		let data;
-		try {
-			data = await res.json();
-		} catch (e) {
-			return showMessage(messageContainer, "Erro inesperado no servidor.", {
-				type: "error",
-			});
-		}
+		setProgress(0);
+		const data = await sendWithProgress(formData, setProgress);
 
 		if (!data.success) {
+			hideProgress();
 			return showMessage(
 				messageContainer,
-				"Erro ao enviar: " + (data.error || "Erro desconhecido."),
+				"Erro ao enviar: " + (data.message || data.error || "Erro desconhecido."),
 				{ type: "error" }
 			);
 		}
 
 		// SUCESSO
+		hideProgress();
 		showMessage(
 			messageContainer,
 			"Pedido enviado com sucesso! Receberá um email de confirmação em breve.",
@@ -436,6 +474,7 @@ async function handleSubmit(event) {
 		form.reset();
 		qs("#valor").textContent = "";
 	} catch (err) {
+		hideProgress();
 		showMessage(messageContainer, "Erro ao enviar: " + err.message, {
 			type: "error",
 		});
